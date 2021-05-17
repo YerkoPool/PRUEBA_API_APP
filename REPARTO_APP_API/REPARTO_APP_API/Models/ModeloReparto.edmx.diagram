@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="01bfb2128fb54be5b6be3c1033446d16" Name="Diagram1">
+        <EntityTypeShape EntityType="RepartoModel.CLIENTE" Width="1.5" PointX="5.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.COMUNA" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.ESTADO" Width="1.5" PointX="7.5" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.PEDIDO" Width="1.5" PointX="9.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.PEDIDO_PRODUCTO" Width="1.5" PointX="12" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.PRODUCTO" Width="1.5" PointX="9.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.PROVINCIA" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.REGION" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="RepartoModel.UBICACION" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="RepartoModel.FK__PEDIDO__ID_CLIEN__08B54D69" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__UBICACION__ID_CL__208CD6FA" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__COMUNA__ID_PROVI__1F98B2C1" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__UBICACION__ID_CO__2180FB33" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__PEDIDO__ID_ESTAD__09A971A2" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__PEDIDO__ID_UBICA__0A9D95DB" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__PEDIDO_PR__ID_PE__06CD04F7" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__PEDIDO_PR__ID_PR__07C12930" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__PROVINCIA__ID_RE__1EA48E88" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__UBICACION__ID_PR__22751F6C" ManuallyRouted="false" />
+        <AssociationConnector Association="RepartoModel.FK__UBICACION__ID_RE__236943A5" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

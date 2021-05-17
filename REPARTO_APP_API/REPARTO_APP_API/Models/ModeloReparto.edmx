@@ -1,0 +1,696 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RepartoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDENTIFICADOR" Type="varchar" MaxLength="50" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="100" />
+          <Property Name="DIRECCION" Type="varchar" MaxLength="100" />
+          <Property Name="TELEFONO" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="int" Nullable="false" />
+          <Property Name="ID_PROVINCIA" Type="int" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ESTADO">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="int" Nullable="false" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PEDIDO">
+          <Key>
+            <PropertyRef Name="ID_PEDIDO" />
+          </Key>
+          <Property Name="ID_PEDIDO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_CLIENTE" Type="int" />
+          <Property Name="ID_UBICACION" Type="int" />
+          <Property Name="ID_ESTADO" Type="int" />
+          <Property Name="CANTIDAD_ITEM" Type="int" />
+          <Property Name="VALOR_TOTAL" Type="int" />
+          <Property Name="COMENTARIO" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PEDIDO_PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PEDIDO_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PEDIDO_PRODUCTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_PRODUCTO" Type="int" Nullable="false" />
+          <Property Name="ID_PEDIDO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PRODUCTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="100" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="100" />
+          <Property Name="PRECIO" Type="int" />
+        </EntityType>
+        <EntityType Name="PROVINCIA">
+          <Key>
+            <PropertyRef Name="ID_PROVINCIA" />
+          </Key>
+          <Property Name="ID_PROVINCIA" Type="int" Nullable="false" />
+          <Property Name="ID_REGION" Type="int" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="23" />
+        </EntityType>
+        <EntityType Name="REGION">
+          <Key>
+            <PropertyRef Name="ID_REGION" />
+          </Key>
+          <Property Name="ID_REGION" Type="int" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UBICACION">
+          <Key>
+            <PropertyRef Name="ID_UBICACION" />
+          </Key>
+          <Property Name="ID_UBICACION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_CLIENTE" Type="int" />
+          <Property Name="ID_REGION" Type="int" />
+          <Property Name="ID_PROVINCIA" Type="int" />
+          <Property Name="ID_COMUNA" Type="int" />
+          <Property Name="CALLE" Type="int" />
+          <Property Name="NUMERO" Type="varchar" MaxLength="100" />
+          <Property Name="TIPO_VIVIENDA" Type="varchar" MaxLength="100" />
+          <Property Name="NRO_DEPTO" Type="int" />
+        </EntityType>
+        <Association Name="FK__COMUNA__ID_PROVI__1F98B2C1">
+          <End Role="PROVINCIA" Type="Self.PROVINCIA" Multiplicity="1" />
+          <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVINCIA">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Principal>
+            <Dependent Role="COMUNA">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO__ID_CLIEN__08B54D69">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="0..1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO__ID_ESTAD__09A971A2">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="0..1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO__ID_UBICA__0A9D95DB">
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="0..1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UBICACION">
+              <PropertyRef Name="ID_UBICACION" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="ID_UBICACION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO_PR__ID_PE__06CD04F7">
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="1" />
+          <End Role="PEDIDO_PRODUCTO" Type="Self.PEDIDO_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PEDIDO">
+              <PropertyRef Name="ID_PEDIDO" />
+            </Principal>
+            <Dependent Role="PEDIDO_PRODUCTO">
+              <PropertyRef Name="ID_PEDIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO_PR__ID_PR__07C12930">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="PEDIDO_PRODUCTO" Type="Self.PEDIDO_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="PEDIDO_PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PROVINCIA__ID_RE__1EA48E88">
+          <End Role="REGION" Type="Self.REGION" Multiplicity="1" />
+          <End Role="PROVINCIA" Type="Self.PROVINCIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGION">
+              <PropertyRef Name="ID_REGION" />
+            </Principal>
+            <Dependent Role="PROVINCIA">
+              <PropertyRef Name="ID_REGION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_CL__208CD6FA">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_CO__2180FB33">
+          <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_COMUNA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_PR__22751F6C">
+          <End Role="PROVINCIA" Type="Self.PROVINCIA" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVINCIA">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_RE__236943A5">
+          <End Role="REGION" Type="Self.REGION" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGION">
+              <PropertyRef Name="ID_REGION" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_REGION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RepartoModelStoreContainer">
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADO" EntityType="Self.ESTADO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PEDIDO" EntityType="Self.PEDIDO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PEDIDO_PRODUCTO" EntityType="Self.PEDIDO_PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROVINCIA" EntityType="Self.PROVINCIA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REGION" EntityType="Self.REGION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UBICACION" EntityType="Self.UBICACION" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__COMUNA__ID_PROVI__1F98B2C1" Association="Self.FK__COMUNA__ID_PROVI__1F98B2C1">
+            <End Role="PROVINCIA" EntitySet="PROVINCIA" />
+            <End Role="COMUNA" EntitySet="COMUNA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO__ID_CLIEN__08B54D69" Association="Self.FK__PEDIDO__ID_CLIEN__08B54D69">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO__ID_ESTAD__09A971A2" Association="Self.FK__PEDIDO__ID_ESTAD__09A971A2">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO__ID_UBICA__0A9D95DB" Association="Self.FK__PEDIDO__ID_UBICA__0A9D95DB">
+            <End Role="UBICACION" EntitySet="UBICACION" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO_PR__ID_PE__06CD04F7" Association="Self.FK__PEDIDO_PR__ID_PE__06CD04F7">
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+            <End Role="PEDIDO_PRODUCTO" EntitySet="PEDIDO_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO_PR__ID_PR__07C12930" Association="Self.FK__PEDIDO_PR__ID_PR__07C12930">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="PEDIDO_PRODUCTO" EntitySet="PEDIDO_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PROVINCIA__ID_RE__1EA48E88" Association="Self.FK__PROVINCIA__ID_RE__1EA48E88">
+            <End Role="REGION" EntitySet="REGION" />
+            <End Role="PROVINCIA" EntitySet="PROVINCIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_CL__208CD6FA" Association="Self.FK__UBICACION__ID_CL__208CD6FA">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_CO__2180FB33" Association="Self.FK__UBICACION__ID_CO__2180FB33">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_PR__22751F6C" Association="Self.FK__UBICACION__ID_PR__22751F6C">
+            <End Role="PROVINCIA" EntitySet="PROVINCIA" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_RE__236943A5" Association="Self.FK__UBICACION__ID_RE__236943A5">
+            <End Role="REGION" EntitySet="REGION" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RepartoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDENTIFICADOR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PEDIDO" Relationship="Self.FK__PEDIDO__ID_CLIEN__08B54D69" FromRole="CLIENTE" ToRole="PEDIDO" />
+          <NavigationProperty Name="UBICACION" Relationship="Self.FK__UBICACION__ID_CL__208CD6FA" FromRole="CLIENTE" ToRole="UBICACION" />
+        </EntityType>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="Int32" Nullable="false" />
+          <Property Name="ID_PROVINCIA" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PROVINCIA" Relationship="Self.FK__COMUNA__ID_PROVI__1F98B2C1" FromRole="COMUNA" ToRole="PROVINCIA" />
+          <NavigationProperty Name="UBICACION" Relationship="Self.FK__UBICACION__ID_CO__2180FB33" FromRole="COMUNA" ToRole="UBICACION" />
+        </EntityType>
+        <EntityType Name="ESTADO">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="Int32" Nullable="false" />
+          <Property Name="ESTADO1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PEDIDO" Relationship="Self.FK__PEDIDO__ID_ESTAD__09A971A2" FromRole="ESTADO" ToRole="PEDIDO" />
+        </EntityType>
+        <EntityType Name="PEDIDO">
+          <Key>
+            <PropertyRef Name="ID_PEDIDO" />
+          </Key>
+          <Property Name="ID_PEDIDO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_CLIENTE" Type="Int32" />
+          <Property Name="ID_UBICACION" Type="Int32" />
+          <Property Name="ID_ESTADO" Type="Int32" />
+          <Property Name="CANTIDAD_ITEM" Type="Int32" />
+          <Property Name="VALOR_TOTAL" Type="Int32" />
+          <Property Name="COMENTARIO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENTE" Relationship="Self.FK__PEDIDO__ID_CLIEN__08B54D69" FromRole="PEDIDO" ToRole="CLIENTE" />
+          <NavigationProperty Name="ESTADO" Relationship="Self.FK__PEDIDO__ID_ESTAD__09A971A2" FromRole="PEDIDO" ToRole="ESTADO" />
+          <NavigationProperty Name="UBICACION" Relationship="Self.FK__PEDIDO__ID_UBICA__0A9D95DB" FromRole="PEDIDO" ToRole="UBICACION" />
+          <NavigationProperty Name="PEDIDO_PRODUCTO" Relationship="Self.FK__PEDIDO_PR__ID_PE__06CD04F7" FromRole="PEDIDO" ToRole="PEDIDO_PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PEDIDO_PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PEDIDO_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PEDIDO_PRODUCTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" />
+          <Property Name="ID_PEDIDO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PEDIDO" Relationship="Self.FK__PEDIDO_PR__ID_PE__06CD04F7" FromRole="PEDIDO_PRODUCTO" ToRole="PEDIDO" />
+          <NavigationProperty Name="PRODUCTO" Relationship="Self.FK__PEDIDO_PR__ID_PR__07C12930" FromRole="PEDIDO_PRODUCTO" ToRole="PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PRODUCTO">
+          <Key>
+            <PropertyRef Name="ID_PRODUCTO" />
+          </Key>
+          <Property Name="ID_PRODUCTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PRECIO" Type="Int32" />
+          <NavigationProperty Name="PEDIDO_PRODUCTO" Relationship="Self.FK__PEDIDO_PR__ID_PR__07C12930" FromRole="PRODUCTO" ToRole="PEDIDO_PRODUCTO" />
+        </EntityType>
+        <EntityType Name="PROVINCIA">
+          <Key>
+            <PropertyRef Name="ID_PROVINCIA" />
+          </Key>
+          <Property Name="ID_PROVINCIA" Type="Int32" Nullable="false" />
+          <Property Name="ID_REGION" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="23" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="COMUNA" Relationship="Self.FK__COMUNA__ID_PROVI__1F98B2C1" FromRole="PROVINCIA" ToRole="COMUNA" />
+          <NavigationProperty Name="REGION" Relationship="Self.FK__PROVINCIA__ID_RE__1EA48E88" FromRole="PROVINCIA" ToRole="REGION" />
+          <NavigationProperty Name="UBICACION" Relationship="Self.FK__UBICACION__ID_PR__22751F6C" FromRole="PROVINCIA" ToRole="UBICACION" />
+        </EntityType>
+        <EntityType Name="REGION">
+          <Key>
+            <PropertyRef Name="ID_REGION" />
+          </Key>
+          <Property Name="ID_REGION" Type="Int32" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PROVINCIA" Relationship="Self.FK__PROVINCIA__ID_RE__1EA48E88" FromRole="REGION" ToRole="PROVINCIA" />
+          <NavigationProperty Name="UBICACION" Relationship="Self.FK__UBICACION__ID_RE__236943A5" FromRole="REGION" ToRole="UBICACION" />
+        </EntityType>
+        <EntityType Name="UBICACION">
+          <Key>
+            <PropertyRef Name="ID_UBICACION" />
+          </Key>
+          <Property Name="ID_UBICACION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_CLIENTE" Type="Int32" />
+          <Property Name="ID_REGION" Type="Int32" />
+          <Property Name="ID_PROVINCIA" Type="Int32" />
+          <Property Name="ID_COMUNA" Type="Int32" />
+          <Property Name="CALLE" Type="Int32" />
+          <Property Name="NUMERO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO_VIVIENDA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NRO_DEPTO" Type="Int32" />
+          <NavigationProperty Name="CLIENTE" Relationship="Self.FK__UBICACION__ID_CL__208CD6FA" FromRole="UBICACION" ToRole="CLIENTE" />
+          <NavigationProperty Name="COMUNA" Relationship="Self.FK__UBICACION__ID_CO__2180FB33" FromRole="UBICACION" ToRole="COMUNA" />
+          <NavigationProperty Name="PEDIDO" Relationship="Self.FK__PEDIDO__ID_UBICA__0A9D95DB" FromRole="UBICACION" ToRole="PEDIDO" />
+          <NavigationProperty Name="PROVINCIA" Relationship="Self.FK__UBICACION__ID_PR__22751F6C" FromRole="UBICACION" ToRole="PROVINCIA" />
+          <NavigationProperty Name="REGION" Relationship="Self.FK__UBICACION__ID_RE__236943A5" FromRole="UBICACION" ToRole="REGION" />
+        </EntityType>
+        <Association Name="FK__PEDIDO__ID_CLIEN__08B54D69">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="0..1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_CL__208CD6FA">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__COMUNA__ID_PROVI__1F98B2C1">
+          <End Role="PROVINCIA" Type="Self.PROVINCIA" Multiplicity="1" />
+          <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVINCIA">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Principal>
+            <Dependent Role="COMUNA">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_CO__2180FB33">
+          <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_COMUNA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO__ID_ESTAD__09A971A2">
+          <End Role="ESTADO" Type="Self.ESTADO" Multiplicity="0..1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="ID_ESTADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO__ID_UBICA__0A9D95DB">
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="0..1" />
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UBICACION">
+              <PropertyRef Name="ID_UBICACION" />
+            </Principal>
+            <Dependent Role="PEDIDO">
+              <PropertyRef Name="ID_UBICACION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO_PR__ID_PE__06CD04F7">
+          <End Role="PEDIDO" Type="Self.PEDIDO" Multiplicity="1" />
+          <End Role="PEDIDO_PRODUCTO" Type="Self.PEDIDO_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PEDIDO">
+              <PropertyRef Name="ID_PEDIDO" />
+            </Principal>
+            <Dependent Role="PEDIDO_PRODUCTO">
+              <PropertyRef Name="ID_PEDIDO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PEDIDO_PR__ID_PR__07C12930">
+          <End Role="PRODUCTO" Type="Self.PRODUCTO" Multiplicity="1" />
+          <End Role="PEDIDO_PRODUCTO" Type="Self.PEDIDO_PRODUCTO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Principal>
+            <Dependent Role="PEDIDO_PRODUCTO">
+              <PropertyRef Name="ID_PRODUCTO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PROVINCIA__ID_RE__1EA48E88">
+          <End Role="REGION" Type="Self.REGION" Multiplicity="1" />
+          <End Role="PROVINCIA" Type="Self.PROVINCIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGION">
+              <PropertyRef Name="ID_REGION" />
+            </Principal>
+            <Dependent Role="PROVINCIA">
+              <PropertyRef Name="ID_REGION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_PR__22751F6C">
+          <End Role="PROVINCIA" Type="Self.PROVINCIA" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROVINCIA">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_PROVINCIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UBICACION__ID_RE__236943A5">
+          <End Role="REGION" Type="Self.REGION" Multiplicity="0..1" />
+          <End Role="UBICACION" Type="Self.UBICACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REGION">
+              <PropertyRef Name="ID_REGION" />
+            </Principal>
+            <Dependent Role="UBICACION">
+              <PropertyRef Name="ID_REGION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RepartoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" />
+          <EntitySet Name="COMUNA" EntityType="Self.COMUNA" />
+          <EntitySet Name="ESTADO" EntityType="Self.ESTADO" />
+          <EntitySet Name="PEDIDO" EntityType="Self.PEDIDO" />
+          <EntitySet Name="PEDIDO_PRODUCTO" EntityType="Self.PEDIDO_PRODUCTO" />
+          <EntitySet Name="PRODUCTO" EntityType="Self.PRODUCTO" />
+          <EntitySet Name="PROVINCIA" EntityType="Self.PROVINCIA" />
+          <EntitySet Name="REGION" EntityType="Self.REGION" />
+          <EntitySet Name="UBICACION" EntityType="Self.UBICACION" />
+          <AssociationSet Name="FK__PEDIDO__ID_CLIEN__08B54D69" Association="Self.FK__PEDIDO__ID_CLIEN__08B54D69">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_CL__208CD6FA" Association="Self.FK__UBICACION__ID_CL__208CD6FA">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__COMUNA__ID_PROVI__1F98B2C1" Association="Self.FK__COMUNA__ID_PROVI__1F98B2C1">
+            <End Role="PROVINCIA" EntitySet="PROVINCIA" />
+            <End Role="COMUNA" EntitySet="COMUNA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_CO__2180FB33" Association="Self.FK__UBICACION__ID_CO__2180FB33">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO__ID_ESTAD__09A971A2" Association="Self.FK__PEDIDO__ID_ESTAD__09A971A2">
+            <End Role="ESTADO" EntitySet="ESTADO" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO__ID_UBICA__0A9D95DB" Association="Self.FK__PEDIDO__ID_UBICA__0A9D95DB">
+            <End Role="UBICACION" EntitySet="UBICACION" />
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO_PR__ID_PE__06CD04F7" Association="Self.FK__PEDIDO_PR__ID_PE__06CD04F7">
+            <End Role="PEDIDO" EntitySet="PEDIDO" />
+            <End Role="PEDIDO_PRODUCTO" EntitySet="PEDIDO_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PEDIDO_PR__ID_PR__07C12930" Association="Self.FK__PEDIDO_PR__ID_PR__07C12930">
+            <End Role="PRODUCTO" EntitySet="PRODUCTO" />
+            <End Role="PEDIDO_PRODUCTO" EntitySet="PEDIDO_PRODUCTO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PROVINCIA__ID_RE__1EA48E88" Association="Self.FK__PROVINCIA__ID_RE__1EA48E88">
+            <End Role="REGION" EntitySet="REGION" />
+            <End Role="PROVINCIA" EntitySet="PROVINCIA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_PR__22751F6C" Association="Self.FK__UBICACION__ID_PR__22751F6C">
+            <End Role="PROVINCIA" EntitySet="PROVINCIA" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UBICACION__ID_RE__236943A5" Association="Self.FK__UBICACION__ID_RE__236943A5">
+            <End Role="REGION" EntitySet="REGION" />
+            <End Role="UBICACION" EntitySet="UBICACION" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RepartoModelStoreContainer" CdmEntityContainer="RepartoEntities">
+          <EntitySetMapping Name="CLIENTE">
+            <EntityTypeMapping TypeName="RepartoModel.CLIENTE">
+              <MappingFragment StoreEntitySet="CLIENTE">
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="IDENTIFICADOR" ColumnName="IDENTIFICADOR" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMUNA">
+            <EntityTypeMapping TypeName="RepartoModel.COMUNA">
+              <MappingFragment StoreEntitySet="COMUNA">
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+                <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADO">
+            <EntityTypeMapping TypeName="RepartoModel.ESTADO">
+              <MappingFragment StoreEntitySet="ESTADO">
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ESTADO1" ColumnName="ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PEDIDO">
+            <EntityTypeMapping TypeName="RepartoModel.PEDIDO">
+              <MappingFragment StoreEntitySet="PEDIDO">
+                <ScalarProperty Name="ID_PEDIDO" ColumnName="ID_PEDIDO" />
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="ID_UBICACION" ColumnName="ID_UBICACION" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="CANTIDAD_ITEM" ColumnName="CANTIDAD_ITEM" />
+                <ScalarProperty Name="VALOR_TOTAL" ColumnName="VALOR_TOTAL" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PEDIDO_PRODUCTO">
+            <EntityTypeMapping TypeName="RepartoModel.PEDIDO_PRODUCTO">
+              <MappingFragment StoreEntitySet="PEDIDO_PRODUCTO">
+                <ScalarProperty Name="ID_PEDIDO_PRODUCTO" ColumnName="ID_PEDIDO_PRODUCTO" />
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="ID_PEDIDO" ColumnName="ID_PEDIDO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTO">
+            <EntityTypeMapping TypeName="RepartoModel.PRODUCTO">
+              <MappingFragment StoreEntitySet="PRODUCTO">
+                <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVINCIA">
+            <EntityTypeMapping TypeName="RepartoModel.PROVINCIA">
+              <MappingFragment StoreEntitySet="PROVINCIA">
+                <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+                <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REGION">
+            <EntityTypeMapping TypeName="RepartoModel.REGION">
+              <MappingFragment StoreEntitySet="REGION">
+                <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UBICACION">
+            <EntityTypeMapping TypeName="RepartoModel.UBICACION">
+              <MappingFragment StoreEntitySet="UBICACION">
+                <ScalarProperty Name="ID_UBICACION" ColumnName="ID_UBICACION" />
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+                <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+                <ScalarProperty Name="CALLE" ColumnName="CALLE" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+                <ScalarProperty Name="TIPO_VIVIENDA" ColumnName="TIPO_VIVIENDA" />
+                <ScalarProperty Name="NRO_DEPTO" ColumnName="NRO_DEPTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

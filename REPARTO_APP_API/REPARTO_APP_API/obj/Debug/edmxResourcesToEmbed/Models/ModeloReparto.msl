@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RepartoModelStoreContainer" CdmEntityContainer="RepartoEntities">
+    <EntitySetMapping Name="CLIENTE">
+      <EntityTypeMapping TypeName="RepartoModel.CLIENTE">
+        <MappingFragment StoreEntitySet="CLIENTE">
+          <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+          <ScalarProperty Name="IDENTIFICADOR" ColumnName="IDENTIFICADOR" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+          <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="COMUNA">
+      <EntityTypeMapping TypeName="RepartoModel.COMUNA">
+        <MappingFragment StoreEntitySet="COMUNA">
+          <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+          <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ESTADO">
+      <EntityTypeMapping TypeName="RepartoModel.ESTADO">
+        <MappingFragment StoreEntitySet="ESTADO">
+          <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+          <ScalarProperty Name="ESTADO1" ColumnName="ESTADO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PEDIDO">
+      <EntityTypeMapping TypeName="RepartoModel.PEDIDO">
+        <MappingFragment StoreEntitySet="PEDIDO">
+          <ScalarProperty Name="ID_PEDIDO" ColumnName="ID_PEDIDO" />
+          <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+          <ScalarProperty Name="ID_UBICACION" ColumnName="ID_UBICACION" />
+          <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+          <ScalarProperty Name="CANTIDAD_ITEM" ColumnName="CANTIDAD_ITEM" />
+          <ScalarProperty Name="VALOR_TOTAL" ColumnName="VALOR_TOTAL" />
+          <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PEDIDO_PRODUCTO">
+      <EntityTypeMapping TypeName="RepartoModel.PEDIDO_PRODUCTO">
+        <MappingFragment StoreEntitySet="PEDIDO_PRODUCTO">
+          <ScalarProperty Name="ID_PEDIDO_PRODUCTO" ColumnName="ID_PEDIDO_PRODUCTO" />
+          <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+          <ScalarProperty Name="ID_PEDIDO" ColumnName="ID_PEDIDO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODUCTO">
+      <EntityTypeMapping TypeName="RepartoModel.PRODUCTO">
+        <MappingFragment StoreEntitySet="PRODUCTO">
+          <ScalarProperty Name="ID_PRODUCTO" ColumnName="ID_PRODUCTO" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+          <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+          <ScalarProperty Name="PRECIO" ColumnName="PRECIO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PROVINCIA">
+      <EntityTypeMapping TypeName="RepartoModel.PROVINCIA">
+        <MappingFragment StoreEntitySet="PROVINCIA">
+          <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+          <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="REGION">
+      <EntityTypeMapping TypeName="RepartoModel.REGION">
+        <MappingFragment StoreEntitySet="REGION">
+          <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+          <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UBICACION">
+      <EntityTypeMapping TypeName="RepartoModel.UBICACION">
+        <MappingFragment StoreEntitySet="UBICACION">
+          <ScalarProperty Name="ID_UBICACION" ColumnName="ID_UBICACION" />
+          <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+          <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+          <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+          <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+          <ScalarProperty Name="CALLE" ColumnName="CALLE" />
+          <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+          <ScalarProperty Name="TIPO_VIVIENDA" ColumnName="TIPO_VIVIENDA" />
+          <ScalarProperty Name="NRO_DEPTO" ColumnName="NRO_DEPTO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
