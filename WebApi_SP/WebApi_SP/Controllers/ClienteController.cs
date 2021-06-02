@@ -57,13 +57,18 @@ namespace WebApi_SP.Controllers
         // POST: api/Cliente
         public async Task<IHttpActionResult> Post(Cliente cliente)
         {
-            int ESTADO = 0;
+            int ID_ESTADO = 0;
+
+
+            //VALORES POR DEFECTO -
+            cliente.CX = "-1";
+            cliente.CY = "-1";
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["BDConexion"].ToString()))
             {
                 await con.OpenAsync();
 
-                using (SqlCommand cmd = new SqlCommand("SP_CREATE_CLIENTE", con))
+                using (SqlCommand cmd = new SqlCommand("SP_CREATE_CLIENTE_X_UBICACION", con))
                 {
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
@@ -72,13 +77,25 @@ namespace WebApi_SP.Controllers
                     cmd.Parameters.Add(new SqlParameter("NOMBRE", cliente.NOMBRE));
                     cmd.Parameters.Add(new SqlParameter("APELLIDO", cliente.APELLIDO));
                     cmd.Parameters.Add(new SqlParameter("TELEFONO", cliente.TELEFONO));
-                    ESTADO = cmd.ExecuteNonQuery();
+                    cmd.Parameters.Add(new SqlParameter("ID_COMUNA", cliente.ID_COMUNA));
+                    cmd.Parameters.Add(new SqlParameter("CALLE", cliente.CALLE));
+                    cmd.Parameters.Add(new SqlParameter("NUMERO", cliente.NUMERO));
+                    cmd.Parameters.Add(new SqlParameter("ID_TIPO_VIVIENDA", cliente.ID_TIPO_VIVIENDA));
+                    cmd.Parameters.Add(new SqlParameter("NRO_DEPTO", cliente.NRO_DEPTO));
+                    cmd.Parameters.Add(new SqlParameter("CX", cliente.CX));
+                    cmd.Parameters.Add(new SqlParameter("CY", cliente.CY));
+                    cmd.Parameters.Add("ID_CLIENTE", SqlDbType.Int);
+
+                    cmd.Parameters["ID_CLIENTE"].Direction = ParameterDirection.Output;
+
+                    cmd.ExecuteNonQuery();
+                    ID_ESTADO = (int)cmd.Parameters["ID_CLIENTE"].Value;
                 }
 
                 con.Close();
             }
 
-            return Ok(200);
+            return Ok(ID_ESTADO);
         }
 
 

@@ -5,19 +5,16 @@ using System.Web;
 
 namespace WebApi_SP.Models
 {
-    public class Cliente
+    public class Ubicacion
     {
+        public int ID_UBICACION { get; set; }
         public int ID_CLIENTE { get; set; }
-        public string IDENTIFICADOR { get; set; }
-        public string NOMBRE { get; set; }
-        public string APELLIDO { get; set; }
-        public string TELEFONO { get; set; }
         public int ID_COMUNA { get; set; }
         public string CALLE { get; set; }
-        public string NUMERO { get; set; }
+        public int NUMERO { get; set; }
         public int ID_TIPO_VIVIENDA { get; set; }
         public string NRO_DEPTO { get; set; }
-        public string CX { get; set; }
-        public string CY { get; set; }
+        public  string CX { get; set; }
+        public  string CY { get; set; }
     }
 }
