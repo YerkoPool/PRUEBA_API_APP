@@ -141,10 +141,11 @@ namespace WebApi_SP.Controllers
 
                     // Add parameter that will be passed to stored procedure
                     cmd.Parameters.Add(new SqlParameter("ID_CLIENTE", id));
-                    cmd.ExecuteReader();
+                    cmd.ExecuteNonQuery();                  
                 }
 
                 con.Close();
+                
             }
 
             return Ok(200);
