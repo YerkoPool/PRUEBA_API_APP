@@ -53,6 +53,44 @@ namespace WebApi_SP.Controllers
         }
 
 
+        [HttpGet]
+        // GET: api/Cliente/5
+        public async Task<IHttpActionResult> Get(int id)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["BDConexion"].ToString()))
+            {
+                await con.OpenAsync();
+
+                using (SqlCommand cmd = new SqlCommand("SP_READ_CLIENTE_X_ID", con))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("ID_CLIENTE", id));
+
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        dt.Load(reader);
+                    }
+                }
+
+                con.Close();
+            }
+
+            if ((dt == null) || (dt.Rows.Count == 0))
+            {
+                return NotFound();
+            }
+
+            return Ok(dt);
+
+            //string JSONresult;
+            //JSONresult = JsonConvert.SerializeObject(dt);
+
+            //return Ok(JSONresult);
+        }
+
+
         [HttpPost]
         // POST: api/Cliente
         public async Task<IHttpActionResult> Post(Cliente cliente)
