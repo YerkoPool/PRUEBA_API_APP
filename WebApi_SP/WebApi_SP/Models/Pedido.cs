@@ -12,6 +12,7 @@ namespace WebApi_SP.Models
         public int ID_PEDIDO { get; set; }
         public int ID_CLIENTE { get; set; }
         public int ID_ESTADO { get; set; }
+        public int ID_ESTADO_PAGO { get; set; }
         public int VALOR_TOTAL { get; set; }
         public string COMENTARIO { get; set; }
         public List<Pedido_Producto> LISTA_PRODUCTO { get; set; }
