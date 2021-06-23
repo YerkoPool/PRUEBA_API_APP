@@ -11,74 +11,73 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using WebApi_SP.Models;
+using WebApi_SP.Services;
 
 namespace WebApi_SP.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProductoController : ApiController
     {
-     
+
         [HttpGet]
         // GET: api/Producto
-        public async Task<IHttpActionResult> Get()
+        public IHttpActionResult Get()
         {
-            DataTable dt = new DataTable();
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["BDConexion"].ToString()))
-            {
-                await con.OpenAsync();
+            ProductoService ps = new ProductoService();
+            List<Producto> producto = ps.ObtenerProducto();
 
-                using (SqlCommand cmd = new SqlCommand("SP_READ_PRODUCTO", con))
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            return Ok(producto);
 
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-                    {
-                        dt.Load(reader);
-                    }
-                }
-
-                con.Close();
-            }
-
-            if ((dt == null) || (dt.Rows.Count == 0))
-            {
-                return NotFound();
-            }
-
-            return Ok(dt);
-
-            //string JSONresult;
-            //JSONresult = JsonConvert.SerializeObject(dt);
-
-            //return Ok(JSONresult);
         }
 
 
         [HttpPost]
         // POST: api/Producto
-        public async Task<IHttpActionResult> Post(Producto producto)
+        public IHttpActionResult Post(Producto producto)
         {
+            
+            ProductoService ps = new ProductoService();
 
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["BDConexion"].ToString()))
+            Int32 MENSAJE = 0;
+            Int32 ESTADO = 0;
+            Boolean SUCCESS = false;
+
+
+            //*************************************************************************
+            // VALIDACION DE DATOS
+            //*************************************************************************
+            if ((producto.NOMBRE != null) && (producto.DESCRIPCION != null) && (producto.PRECIO != 0))
             {
-                await con.OpenAsync();
-
-                using (SqlCommand cmd = new SqlCommand("SP_CREATE_PRODUCTO", con))
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-                    // Add parameter that will be passed to stored procedure
-                    cmd.Parameters.Add(new SqlParameter("NOMBRE", producto.NOMBRE));
-                    cmd.Parameters.Add(new SqlParameter("DESCRIPCION", producto.DESCRIPCION));
-                    cmd.Parameters.Add(new SqlParameter("PRECIO", producto.PRECIO));
-                    cmd.ExecuteReader();
-                }
-
-                con.Close();
+                MENSAJE = ps.AgregarProducto(producto);          
+            }
+            else
+            {
+                MENSAJE = -1;            
             }
 
-            return Ok(200);
+            //*************************************************************************
+            // VALIDO QUE EL MENSAJE SEA MAYOR A CERO CUANDO FUE UNA INSERCION EXITOSA
+            //*************************************************************************
+            if (MENSAJE > 0)
+            {
+                ESTADO = (int)HttpStatusCode.OK;
+                SUCCESS = true;
+            }
+            else
+            {
+                ESTADO = (int)HttpStatusCode.BadRequest;
+                SUCCESS = false;
+            }
+
+
+
+            return Json(new
+            {
+                Success = SUCCESS,
+                StatusCode = ESTADO,
+                Message = MENSAJE
+            });
         }
 
 
