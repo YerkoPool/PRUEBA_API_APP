@@ -52,6 +52,43 @@ namespace WebApi_SP.Services
             
         }
 
+        public Int32 EditarProducto(int id, Producto producto)
+        {
+
+            dbConnector objConn = new dbConnector();
+            SqlConnection Conn = objConn.GetConnection;
+            Conn.Open();
+
+            int resultado = 0;
+
+            if (Conn.State != System.Data.ConnectionState.Open)
+                Conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SP_UPDATE_PRODUCTO", Conn);
+
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            // Add parameter that will be passed to stored procedure
+            cmd.Parameters.Add(new SqlParameter("ID_PRODUCTO", id));
+            cmd.Parameters.Add(new SqlParameter("NOMBRE", producto.NOMBRE));
+            cmd.Parameters.Add(new SqlParameter("DESCRIPCION", producto.DESCRIPCION));
+            cmd.Parameters.Add(new SqlParameter("PRECIO", producto.PRECIO));
+
+
+            resultado = Convert.ToInt32(cmd.ExecuteScalar());
+
+            if (resultado > 0)
+            {
+                return resultado;
+            }
+            else
+            {
+                return 0;
+
+            }
+
+        }
+
         public List<Producto> ObtenerProducto()
         {
 

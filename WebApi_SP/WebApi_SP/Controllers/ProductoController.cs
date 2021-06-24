@@ -83,28 +83,49 @@ namespace WebApi_SP.Controllers
 
         [HttpPut]
         // PUT: api/Producto/1
-        public async Task<IHttpActionResult> Put(int id, Producto producto)
+        public IHttpActionResult Put(int id, Producto producto)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["BDConexion"].ToString()))
+            ProductoService ps = new ProductoService();
+
+            Int32 MENSAJE = 0;
+            Int32 ESTADO = 0;
+            Boolean SUCCESS = false;
+
+
+            //*************************************************************************
+            // VALIDACION DE DATOS
+            //*************************************************************************
+            if ((producto.NOMBRE != null) && (producto.DESCRIPCION != null) && (producto.PRECIO != 0))
             {
-                await con.OpenAsync();
-
-                using (SqlCommand cmd = new SqlCommand("SP_UPDATE_PRODUCTO", con))
-                {
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-                    // Add parameter that will be passed to stored procedure
-                    cmd.Parameters.Add(new SqlParameter("ID_PRODUCTO", id));
-                    cmd.Parameters.Add(new SqlParameter("NOMBRE", producto.NOMBRE));
-                    cmd.Parameters.Add(new SqlParameter("DESCRIPCION", producto.DESCRIPCION));
-                    cmd.Parameters.Add(new SqlParameter("PRECIO", producto.PRECIO));
-                    cmd.ExecuteReader();
-                }
-
-                con.Close();
+                MENSAJE = ps.EditarProducto(id,producto);
+            }
+            else
+            {
+                MENSAJE = -1;
             }
 
-            return Ok(200);
+            //*************************************************************************
+            // VALIDO QUE EL MENSAJE SEA MAYOR A CERO CUANDO FUE UNA INSERCION EXITOSA
+            //*************************************************************************
+            if (MENSAJE > 0)
+            {
+                ESTADO = (int)HttpStatusCode.OK;
+                SUCCESS = true;
+            }
+            else
+            {
+                ESTADO = (int)HttpStatusCode.BadRequest;
+                SUCCESS = false;
+            }
+
+
+
+            return Json(new
+            {
+                Success = SUCCESS,
+                StatusCode = ESTADO,
+                Message = MENSAJE
+            });
         }
     }
 }
